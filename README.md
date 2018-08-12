@@ -8,7 +8,8 @@ provider (currently Dropbox).
 # Requirements
 
 The script requires:
-  - exiftool Python module
+  - exiftool Python module (bundled)
+  - filelock Python module (bundled)
 
 # Usage
 
