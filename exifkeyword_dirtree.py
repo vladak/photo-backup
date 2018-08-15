@@ -120,9 +120,15 @@ if __name__ == '__main__':
                         logger.debug('\t%s' % fullname)
 
                         if check_keywords(fullname, args.keyword):
+                            # If the destination file already exists, do not copy.
                             path = pathlib.Path(dirName)
                             dstdirname = os.path.sep.join(path.parts[int(args.stripcount):])
                             dstname = os.path.join(args.destDir, dstdirname, filename)
+                            # TODO: compare at least file size
+                            if os.path.exists(dstname):
+                                logger.debug("File {} already exists, skipping".format(dstname))
+                                continue
+
                             dstdir = os.path.dirname(dstname)
                             logger.info('Creating directory: {}'.format(dstdir))
                             os.makedirs(dstdir, exist_ok=True)
