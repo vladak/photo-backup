@@ -86,6 +86,7 @@ if __name__ == '__main__':
     parser.add_argument('-D', '--debug', action='store_true',
                         help='Enable debug prints')
     parser.add_argument('-s', '--suffix', action='append', help='Suffix(es) of the files to work on')
+    parser.add_argument('-S', '--stripcount', default=1, help='Number of path components to strip from sourceDir')
 
     args = parser.parse_args()
 
@@ -120,10 +121,11 @@ if __name__ == '__main__':
 
                         if check_keywords(fullname, args.keyword):
                             path = pathlib.Path(dirName)
-                            dstdirname = os.path.sep.join(path.parts[1:])
+                            dstdirname = os.path.sep.join(path.parts[int(args.stripcount):])
                             dstname = os.path.join(args.destDir, dstdirname, filename)
                             dstdir = os.path.dirname(dstname)
-                            os.mkdir(dstdir)
+                            logger.info('Creating directory: {}'.format(dstdir))
+                            os.makedirs(dstdir, exist_ok=True)
                             logger.debug("Copying {} to {}".format(fullname, dstname))
                             shutil.copy(fullname, dstname)
                         else:
