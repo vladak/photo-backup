@@ -23,7 +23,7 @@ import filelock
 import exiftool
 
 
-def check_dir(name):
+def check_dir(logger, name):
     """Check if name is directory. If not, exit the program."""
     if not os.path.isdir(name):
         logger.critical("{} is not a directory".format(name))
@@ -47,7 +47,7 @@ def check_suffix(fname, suffixes):
     return False
 
 
-def check_keywords(fullname, keywords):
+def check_keywords(logger, et, fullname, keywords):
     """
     Check if file has contains specified EXIF keywords.
     :param fullname: full path to the file
@@ -76,7 +76,34 @@ def check_keywords(fullname, keywords):
     return False
 
 
-if __name__ == '__main__':
+def handle_file(logger, et, dirname, filename, destdir, suffixes, stripcount, keywords):
+    if not check_suffix(filename, suffixes):
+        logger.debug("Skipping {} due to no suffix match".format(filename))
+        return
+
+    fullname = os.path.join(dirname, filename)
+    logger.debug('\t%s' % fullname)
+
+    if check_keywords(logger, et, fullname, keywords):
+        # If the destination file already exists, do not copy.
+        path = pathlib.Path(dirname)
+        dstdirname = os.path.sep.join(path.parts[int(stripcount):])
+        dstname = os.path.join(destdir, dstdirname, filename)
+        # TODO: compare at least file size
+        if os.path.exists(dstname):
+            logger.debug("File {} already exists, skipping".format(dstname))
+            return
+
+        dstdir = os.path.dirname(dstname)
+        logger.info('Creating directory: {}'.format(dstdir))
+        os.makedirs(dstdir, exist_ok=True)
+        logger.debug("Copying {} to {}".format(fullname, dstname))
+        shutil.copy(fullname, dstname)
+    else:
+        logger.debug("Skipping {} because it does not match any keyword".format(fullname))
+
+
+def main():
     parser = argparse.ArgumentParser(description='recreate directory structure just from files that match'
                                                  'certain criteria')
 
@@ -101,8 +128,8 @@ if __name__ == '__main__':
         logger.error("No keywords specified")
         sys.exit(1)
 
-    check_dir(args.sourceDir)
-    check_dir(args.destDir)
+    check_dir(logger, args.sourceDir)
+    check_dir(logger, args.destDir)
 
     lock = filelock.FileLock(os.path.join(tempfile.gettempdir(),
                                           "{}.lock".format(sys.argv[0])))
@@ -112,33 +139,14 @@ if __name__ == '__main__':
                 for dirName, subdirList, fileList in os.walk(args.sourceDir):
                     logger.debug('Found directory: %s' % dirName)
                     for filename in fileList:
-                        if not check_suffix(filename, args.suffix):
-                            logger.debug("Skipping {}".format(filename))
-                            continue
-
-                        fullname = os.path.join(dirName, filename)
-                        logger.debug('\t%s' % fullname)
-
-                        if check_keywords(fullname, args.keyword):
-                            # If the destination file already exists, do not copy.
-                            path = pathlib.Path(dirName)
-                            dstdirname = os.path.sep.join(path.parts[int(args.stripcount):])
-                            dstname = os.path.join(args.destDir, dstdirname, filename)
-                            # TODO: compare at least file size
-                            if os.path.exists(dstname):
-                                logger.debug("File {} already exists, skipping".format(dstname))
-                                continue
-
-                            dstdir = os.path.dirname(dstname)
-                            logger.info('Creating directory: {}'.format(dstdir))
-                            os.makedirs(dstdir, exist_ok=True)
-                            logger.debug("Copying {} to {}".format(fullname, dstname))
-                            shutil.copy(fullname, dstname)
-                        else:
-                            logger.debug("Skipping {} because it does not match any keyword".format(fullname))
-
+                        handle_file(logger, et, dirName, filename,
+                                    args.destDir, args.suffix, args.stripcount, args.keyword)
     except filelock.Timeout:
         logger.warning("Already running, exiting.")
         sys.exit(1)
 
     logging.shutdown()
+
+
+if __name__ == '__main__':
+    main()
