@@ -139,6 +139,7 @@ def main():
                 for dirName, subdirList, fileList in os.walk(args.sourceDir):
                     logger.debug('Found directory: %s' % dirName)
                     for filename in fileList:
+                        # TODO: collect runtime parameters into a class and pass its instance to avoid long argument list
                         handle_file(logger, et, dirName, filename,
                                     args.destDir, args.suffix, args.stripcount, args.keyword)
     except filelock.Timeout:
