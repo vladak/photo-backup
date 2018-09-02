@@ -95,8 +95,10 @@ def handle_file(logger, et, dirname, filename, destdir, suffixes, stripcount, ke
             return
 
         dstdir = os.path.dirname(dstname)
-        logger.info('Creating directory: {}'.format(dstdir))
-        os.makedirs(dstdir, exist_ok=True)
+        if not os.path.isdir(dstdir):
+            logger.info('Creating directory: {}'.format(dstdir))
+            os.makedirs(dstdir, exist_ok=True)
+
         logger.debug("Copying {} to {}".format(fullname, dstname))
         shutil.copy(fullname, dstname)
     else:
