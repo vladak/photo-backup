@@ -56,30 +56,36 @@ def check_keywords(logger, et, fullname, keywords):
     """
     try:
         metadata = et.get_metadata(fullname)
-        logger.debug("File {} metadata: {}".format(fullname, metadata))
+        logger.debug("File {} metadata: {}".
+                     format(fullname, metadata))
     except json.decoder.JSONDecodeError:
         logger.error("Cannot get metadata for {}".format(fullname))
         return
 
     try:
         file_keywords = metadata["IPTC:Keywords"]
-        logger.debug("File {} has keywords: {}".format(fullname, file_keywords))
+        logger.debug("File {} has keywords: {}".
+                     format(fullname, file_keywords))
     except KeyError:
-        logger.debug("File {} does not contain keyword metadata".format(fullname))
+        logger.debug("File {} does not contain keyword metadata".
+                     format(fullname))
         return False
 
     for keyword in keywords:
         if keyword in file_keywords:
-            logger.debug("File {} contains the '{}' keyword".format(fullname, keyword))
+            logger.debug("File {} contains the '{}' keyword".
+                         format(fullname, keyword))
             return True
 
     return False
 
 
-def handle_file(logger, et, dirname, filename, destdir, suffixes, stripcount, keywords, copy=True):
+def handle_file(logger, et, dirname, filename, destdir, suffixes,
+                stripcount, keywords, copy=True):
 
     if not check_suffix(filename, suffixes):
-        logger.debug("Skipping {} due to no suffix match".format(filename))
+        logger.debug("Skipping {} due to no suffix match".
+                     format(filename))
         return
 
     fullname = os.path.join(dirname, filename)
@@ -92,7 +98,8 @@ def handle_file(logger, et, dirname, filename, destdir, suffixes, stripcount, ke
         dstname = os.path.join(destdir, dstdirname, filename)
         # TODO: compare at least file size
         if os.path.exists(dstname):
-            logger.debug("File {} already exists, skipping".format(dstname))
+            logger.debug("File {} already exists, skipping".
+                         format(dstname))
             return
 
         dstdir = os.path.dirname(dstname)
@@ -104,24 +111,33 @@ def handle_file(logger, et, dirname, filename, destdir, suffixes, stripcount, ke
             logger.debug("Copying {} to {}".format(fullname, dstname))
             shutil.copy(fullname, dstname)
         else:
-            logger.debug("Creating symlink {} -> {}".format(dstname, fullname))
+            logger.debug("Creating symlink {} -> {}".
+                         format(dstname, fullname))
             os.symlink(fullname, dstname)
     else:
-        logger.debug("Skipping {} because it does not match any keyword".format(fullname))
+        logger.debug("Skipping {} because it does not match any keyword".
+                     format(fullname))
 
 
 def main():
-    parser = argparse.ArgumentParser(description='recreate directory structure just from files that match'
+    parser = argparse.ArgumentParser(description='recreate directory '
+                                                 'structure just '
+                                                 'from files that match'
                                                  'certain criteria')
 
     parser.add_argument('sourceDir')
     parser.add_argument('destDir')
-    parser.add_argument('-k', '--keyword', required=True, action='append', help='EXIF keyword(s)')
+    parser.add_argument('-k', '--keyword', required=True, action='append',
+                        help='EXIF keyword(s)')
     parser.add_argument('-D', '--debug', action='store_true',
                         help='Enable debug prints')
-    parser.add_argument('-s', '--suffix', action='append', help='Suffix(es) of the files to work on')
-    parser.add_argument('-S', '--stripcount', default=1, help='Number of path components to strip from sourceDir')
-    parser.add_argument('--symlink', action='store_true', help='create symlinks instead of copying files')
+    parser.add_argument('-s', '--suffix', action='append',
+                        help='Suffix(es) of the files to work on')
+    parser.add_argument('-S', '--stripcount', default=1,
+                        help='Number of path components to strip from '
+                             'sourceDir')
+    parser.add_argument('--symlink', action='store_true',
+                        help='create symlinks instead of copying files')
 
     args = parser.parse_args()
 
@@ -155,9 +171,11 @@ def main():
 
                     logger.debug('Found directory: %s' % dirName)
                     for filename in fileList:
-                        # TODO: collect runtime parameters into a class and pass its instance to avoid long argument list
+                        # TODO: collect runtime parameters into a class and
+                        #  pass its instance to avoid long argument list
                         handle_file(logger, et, dirName, filename,
-                                    args.destDir, args.suffix, args.stripcount, args.keyword, docopy)
+                                    args.destDir, args.suffix,
+                                    args.stripcount, args.keyword, docopy)
     except filelock.Timeout:
         logger.warning("Already running, exiting.")
         sys.exit(1)
