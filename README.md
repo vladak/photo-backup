@@ -10,9 +10,10 @@ Create Python virtual environment and install the dependencies:
 
 ```
 python3 -m venv create venv
+. ./venv/bin/activate
 pip  install --upgrade pip
 pip install -r requirements.txt
-. ./venv/bin/activate
+pip install .
 ```
 
 Use e.g. like this:
