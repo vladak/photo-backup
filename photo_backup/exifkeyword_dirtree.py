@@ -116,9 +116,11 @@ def main():
                              'sourceDir')
     parser.add_argument('--symlink', action='store_true',
                         help='create symlinks instead of copying files')
+    # TODO add log level arg
 
     args = parser.parse_args()
 
+    # TODO avoid basicConfig
     if args.debug:
         logging.basicConfig(level=logging.DEBUG)
     else:
