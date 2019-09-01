@@ -2,7 +2,7 @@
 
 """
 Copy files from a directory tree that have given keyword in their EXIF data
-to a new directory tree.
+to a new directory tree, optionally using symlinks.
 
 This can serve as a way how to extract valuable files out of photo collection.
 
@@ -76,7 +76,8 @@ def check_keywords(logger, et, fullname, keywords):
     return False
 
 
-def handle_file(logger, et, dirname, filename, destdir, suffixes, stripcount, keywords):
+def handle_file(logger, et, dirname, filename, destdir, suffixes, stripcount, keywords, copy=True):
+
     if not check_suffix(filename, suffixes):
         logger.debug("Skipping {} due to no suffix match".format(filename))
         return
@@ -99,8 +100,12 @@ def handle_file(logger, et, dirname, filename, destdir, suffixes, stripcount, ke
             logger.info('Creating directory: {}'.format(dstdir))
             os.makedirs(dstdir, exist_ok=True)
 
-        logger.debug("Copying {} to {}".format(fullname, dstname))
-        shutil.copy(fullname, dstname)
+        if copy:
+            logger.debug("Copying {} to {}".format(fullname, dstname))
+            shutil.copy(fullname, dstname)
+        else:
+            logger.debug("Creating symlink {} -> {}".format(dstname, fullname))
+            os.symlink(fullname, dstname)
     else:
         logger.debug("Skipping {} because it does not match any keyword".format(fullname))
 
@@ -116,6 +121,7 @@ def main():
                         help='Enable debug prints')
     parser.add_argument('-s', '--suffix', action='append', help='Suffix(es) of the files to work on')
     parser.add_argument('-S', '--stripcount', default=1, help='Number of path components to strip from sourceDir')
+    parser.add_argument('--symlink', action='store_true', help='create symlinks instead of copying files')
 
     args = parser.parse_args()
 
@@ -133,17 +139,25 @@ def main():
     check_dir(logger, args.sourceDir)
     check_dir(logger, args.destDir)
 
+    docopy = True
+    if args.symlink:
+        docopy = False
+
     lock = filelock.FileLock(os.path.join(tempfile.gettempdir(),
                                           "{}.lock".format(sys.argv[0])))
     try:
         with lock.acquire(timeout=0):
             with exiftool.ExifTool() as et:
                 for dirName, subdirList, fileList in os.walk(args.sourceDir):
+                    if not docopy and dirName == args.destDir:
+                        logger.debug("Skipping {}".format(dirName))
+                        continue
+
                     logger.debug('Found directory: %s' % dirName)
                     for filename in fileList:
                         # TODO: collect runtime parameters into a class and pass its instance to avoid long argument list
                         handle_file(logger, et, dirName, filename,
-                                    args.destDir, args.suffix, args.stripcount, args.keyword)
+                                    args.destDir, args.suffix, args.stripcount, args.keyword, docopy)
     except filelock.Timeout:
         logger.warning("Already running, exiting.")
         sys.exit(1)
