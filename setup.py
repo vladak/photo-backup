@@ -7,6 +7,6 @@ setup(
    author='Vladimir Kotal',
    author_email='vlada@devnull.cz',
    packages=['photo-backup'],
-   install_requires=['PyExifTool', 'filelock'], #external packages as dependencies
+   install_requires=['PyExifTool', 'filelock'],
    # scripts=['exifkeyword_dirtree.py']
 )
