@@ -22,7 +22,7 @@ import filelock
 
 import exiftool
 
-from utils import check_dir, check_suffix
+from .utils import check_dir, check_suffix
 
 
 def check_keywords(logger, et, fullname, keywords):
