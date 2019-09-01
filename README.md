@@ -21,3 +21,10 @@ Use e.g. like this:
 ```
 ./exifkeyword_diftree.py -s JPG -s jpg -k nice -k selected srcDir dstDir
 ```
+
+or from crontab:
+
+```
+# run five minutes after midnight, every Sunday
+5 0 * * $HOME/photo-backup/venv/bin/python $HOME/photo-backup/venv/bin/photobackup ...
+```
