@@ -6,6 +6,7 @@ python:
 install:
   - python -m pip install --upgrade pip
   - pip install -r requirements.txt
+  - pip install .
   - pip install flake8
 # command to run tests
 script:
