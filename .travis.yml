@@ -2,6 +2,8 @@ language: python
 python:
   - "3.6"      # detault Python on Travis CI as of 2019
   - "3.7"
+before_install:
+  - sudo apt-get install -qq exiftool
 install:
   - python -m pip install --upgrade pip
   - pip install -r requirements.txt
