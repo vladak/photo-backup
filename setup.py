@@ -10,7 +10,7 @@ setup(
    install_requires=['PyExifTool', 'filelock'],
    entry_points={
       'console_scripts': [
-         'photobackup = photo_backup.exifkeyword_dirtree:main'
+         'photobackup = photo_backup.photobackup:main'
       ]
    }
 )
