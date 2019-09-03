@@ -2,12 +2,12 @@ import json
 import logging
 
 
-def get_keywords(et, fullname):
+def get_metadata(et, fullname):
     """
-    Get EXIF keywords for a file.
+    Get EXIF metadata for a file.
     :param et: exiftool instance
     :param fullname: full path to the file
-    :return: list of keywords
+    :return: metadata
     """
 
     logger = logging.getLogger(__name__)
@@ -19,6 +19,21 @@ def get_keywords(et, fullname):
     except json.decoder.JSONDecodeError:
         logger.error("Cannot get metadata for {}".format(fullname))
         raise
+
+    return metadata
+
+
+def get_keywords(et, fullname):
+    """
+    Get EXIF keywords for a file.
+    :param et: exiftool instance
+    :param fullname: full path to the file
+    :return: list of keywords
+    """
+
+    logger = logging.getLogger(__name__)
+
+    metadata = get_metadata(et, fullname)
 
     try:
         file_keywords = metadata["IPTC:Keywords"]
