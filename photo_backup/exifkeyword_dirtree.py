@@ -10,11 +10,8 @@ vlada@devnull.cz, 2018
 """
 
 import argparse
-import json
 import logging
 import os
-import pathlib
-import shutil
 import sys
 import tempfile
 
@@ -22,79 +19,8 @@ import filelock
 
 import exiftool
 
-from .utils import check_dir, check_suffix
-
-
-def check_keywords(logger, et, fullname, keywords):
-    """
-    Check if file has contains specified EXIF keywords.
-    :param fullname: full path to the file
-    :param keywords: list of keywords
-    :return: true if the file contains a keyword from the list
-    """
-    try:
-        metadata = et.get_metadata(fullname)
-        logger.debug("File {} metadata: {}".
-                     format(fullname, metadata))
-    except json.decoder.JSONDecodeError:
-        logger.error("Cannot get metadata for {}".format(fullname))
-        return
-
-    try:
-        file_keywords = metadata["IPTC:Keywords"]
-        logger.debug("File {} has keywords: {}".
-                     format(fullname, file_keywords))
-    except KeyError:
-        logger.debug("File {} does not contain keyword metadata".
-                     format(fullname))
-        return False
-
-    for keyword in keywords:
-        if keyword in file_keywords:
-            logger.debug("File {} contains the '{}' keyword".
-                         format(fullname, keyword))
-            return True
-
-    return False
-
-
-def handle_file(logger, et, dirname, filename, destdir, suffixes,
-                stripcount, keywords, copy=True):
-
-    if not check_suffix(filename, suffixes):
-        logger.debug("Skipping {} due to no suffix match".
-                     format(filename))
-        return
-
-    fullname = os.path.join(dirname, filename)
-    logger.debug('\t%s' % fullname)
-
-    if check_keywords(logger, et, fullname, keywords):
-        # If the destination file already exists, do not copy.
-        path = pathlib.Path(dirname)
-        dstdirname = os.path.sep.join(path.parts[int(stripcount):])
-        dstname = os.path.join(destdir, dstdirname, filename)
-        # TODO: compare at least file size
-        if os.path.exists(dstname):
-            logger.debug("File {} already exists, skipping".
-                         format(dstname))
-            return
-
-        dstdir = os.path.dirname(dstname)
-        if not os.path.isdir(dstdir):
-            logger.info('Creating directory: {}'.format(dstdir))
-            os.makedirs(dstdir, exist_ok=True)
-
-        if copy:
-            logger.debug("Copying {} to {}".format(fullname, dstname))
-            shutil.copy(fullname, dstname)
-        else:
-            logger.debug("Creating symlink {} -> {}".
-                         format(dstname, fullname))
-            os.symlink(fullname, dstname)
-    else:
-        logger.debug("Skipping {} because it does not match any keyword".
-                     format(fullname))
+from .utils import check_dir
+from .handling import handle_file
 
 
 def main():
