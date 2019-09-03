@@ -9,10 +9,10 @@ def check_dir(logger, name):
         sys.exit(1)
 
 
-def check_suffix(fname, suffixes):
+def check_suffix(filename, suffixes):
     """
     Check if filename has a suffix out of a list
-    :param fname: file name to check
+    :param filename: file name to check
     :param suffixes: list of suffixes (can be None)
     :return: true if filename's suffix matches on in the list
     """
@@ -20,7 +20,7 @@ def check_suffix(fname, suffixes):
         return True
 
     for suffix in suffixes:
-        if fname.endswith('.{}'.format(suffix)):
+        if filename.endswith('.{}'.format(suffix)):
             return True
 
     return False
