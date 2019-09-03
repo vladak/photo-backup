@@ -14,3 +14,4 @@ class BasicTests(unittest.TestCase):
     def test_check_keywords(self):
         with exiftool.ExifTool() as et:
             assert check_keywords(et, os.path.join(DIR_PATH, "testfile.jpg"), ["selected"])
+            assert not check_keywords(et, os.path.join(DIR_PATH, "testfile.jpg"), ["foo"])
