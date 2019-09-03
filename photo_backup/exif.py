@@ -1,13 +1,17 @@
 import json
+import logging
 
 
-def check_keywords(logger, et, fullname, keywords):
+def check_keywords(et, fullname, keywords):
     """
     Check if file has contains specified EXIF keywords.
     :param fullname: full path to the file
     :param keywords: list of keywords
     :return: true if the file contains a keyword from the list
     """
+
+    logger = logging.getLogger(__name__)
+
     try:
         metadata = et.get_metadata(fullname)
         logger.debug("File {} metadata: {}".

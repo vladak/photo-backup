@@ -1,4 +1,7 @@
 from setuptools import setup
+import os
+
+
 
 setup(
    name='photo_backup',
@@ -12,5 +15,9 @@ setup(
       'console_scripts': [
          'photobackup = photo_backup.photobackup:main'
       ]
-   }
+   },
+   test_suite='tests.load_suite',
+   tests_require=[
+      'pytest',
+   ],
 )

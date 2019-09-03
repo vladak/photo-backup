@@ -1,13 +1,16 @@
 import pathlib
 import shutil
 import os
+import logging
 
 from .exif import check_keywords
 from .utils import check_suffix
 
 
-def handle_file(logger, et, dirname, filename, destdir, suffixes,
+def handle_file(et, dirname, filename, destdir, suffixes,
                 stripcount, keywords, copy=True):
+
+    logger = logging.getLogger(__name__)
 
     if not check_suffix(filename, suffixes):
         logger.debug("Skipping {} due to no suffix match".

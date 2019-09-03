@@ -1,14 +1,13 @@
 language: python
 python:
-  - "3.6"      # current detault Python on Travis CI
+  - "3.6"      # detault Python on Travis CI as of 2019
   - "3.7"
-# command to install dependencies
 install:
   - python -m pip install --upgrade pip
   - pip install -r requirements.txt
   - pip install .
   - pip install flake8
-# command to run tests
+  - pip install pytest
 script:
   - flake8 *.py
-#  - pytest
+  - pytest

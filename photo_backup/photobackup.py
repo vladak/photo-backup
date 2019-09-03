@@ -79,7 +79,7 @@ def main():
                     for filename in fileList:
                         # TODO: collect runtime parameters into a class and
                         #  pass its instance to avoid long argument list
-                        handle_file(logger, et, dirName, filename,
+                        handle_file(et, dirName, filename,
                                     args.destDir, args.suffix,
                                     args.stripcount, args.keyword, docopy)
     except filelock.Timeout:
