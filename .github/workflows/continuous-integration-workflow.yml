@@ -21,5 +21,5 @@ jobs:
       - run: pip install .
       - run: pip install flake8
       - run: pip install pytest
-      - run: flake8 *.py
+      - run: flake8 -v *.py
       - run: pytest
