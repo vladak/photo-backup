@@ -20,6 +20,6 @@ jobs:
       - run: . ./venv/bin/activate
       - run: pip install .
       - run: pip install flake8
-      - run: install pytest
+      - run: pip install pytest
       - run: flake8 *.py
       - run: pytest
