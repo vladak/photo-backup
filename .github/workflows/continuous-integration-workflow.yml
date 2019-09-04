@@ -17,3 +17,9 @@ jobs:
           architecture: x64
       - run: sudo apt-get install -qq exiftool
       - run: python -m venv create venv
+      - run: . ./venv/bin/activate
+      - run: pip install .
+      - run: pip install flake8
+      - run: install pytest
+      - run: flake8 *.py
+      - run: pytest
