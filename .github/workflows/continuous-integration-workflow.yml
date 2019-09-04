@@ -1,7 +1,8 @@
 name: Install and test
 on: [push]
 
-build:
+jobs:
+  build:
     runs-on: ubuntu-16.04
     strategy:
       matrix:
