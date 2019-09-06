@@ -19,7 +19,7 @@ jobs:
       - name: Install exiftool
         env:
            OS: ${{ runner.os }}
-        run: install_exiftool.sh
+        run: ./install_exiftool.sh
       - run: python -m venv create venv
       - run: . ./venv/bin/activate
       - run: pip install .
