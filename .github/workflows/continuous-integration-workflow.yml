@@ -3,6 +3,7 @@ on: [push]
 
 jobs:
   build:
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         python: [ '3.6', '3.7' ]
