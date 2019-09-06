@@ -13,7 +13,6 @@ setup(
          'photobackup = photo_backup.photobackup:main'
       ]
    },
-   test_suite='tests.load_suite',
    tests_require=[
       'pytest',
    ],
