@@ -8,7 +8,7 @@ jobs:
       matrix:
         python: [ '3.6', '3.7' ]
         os: [ubuntu-latest, macOS-latest]
-    name: Python ${{ matrix.python }} sample
+    name: Python ${{ matrix.python }} build
     steps:
       - uses: actions/checkout@master
       - name: Setup python
