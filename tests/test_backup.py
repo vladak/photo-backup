@@ -30,4 +30,5 @@ def test_handling():
             backup_file(subdir, file_name, destdir,
                         len(pathlib.Path(srcdir).parts))
             print(os.listdir(destdir))
-            assert os.path.isfile(os.path.join(destdir, subdir_name, "testfile.jpg"))
+            assert os.path.isfile(os.path.join(destdir, subdir_name,
+                                               file_name))
