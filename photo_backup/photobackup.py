@@ -20,7 +20,7 @@ import filelock
 import exiftool
 
 from .utils import check_dir
-from .handling import handle_file
+from .backup import backup_dir
 
 
 def main():
@@ -70,14 +70,9 @@ def main():
     try:
         with lock.acquire(timeout=0):
             with exiftool.ExifTool() as et:
-                for dirName, subdirList, fileList in os.walk(args.sourceDir):
-                    if not docopy and dirName == args.destDir:
-                        logger.debug("Skipping {}".format(dirName))
-                        continue
-
-                    logger.debug('Found directory: %s' % dirName)
-                    for filename in fileList:
-                        handle_file(args, dirName, docopy, et, filename, logger)
+                backup_dir(args.sourceDir, args.destDir, docopy, et,
+                           args.keyword, args.stripcount,
+                           args.suffix)
     except filelock.Timeout:
         logger.warning("Already running, exiting.")
         sys.exit(1)

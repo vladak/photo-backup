@@ -25,3 +25,4 @@ def test_get_keywords():
             ["selected"]
         assert get_keywords(et, os.path.join(DIR_PATH, "2keywords.jpg")) == \
             ["selected", "foo"]
+        assert get_keywords(et, os.path.join(DIR_PATH, "nokeywords.jpg")) == []
