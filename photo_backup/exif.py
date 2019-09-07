@@ -44,6 +44,9 @@ def get_keywords(et, fullname):
                      format(fullname))
         return []
 
+    if not isinstance(file_keywords, list):
+        file_keywords = [file_keywords]
+
     return file_keywords
 
 
