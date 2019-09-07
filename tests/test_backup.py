@@ -35,15 +35,15 @@ def test_backup_file():
                                                file_name))
 
 
-def get_list_of_files(dirName):
+def get_list_of_files(dir_name):
     """
-    :param dirName: directory path
+    :param dir_name: directory path
     :return: list of relative file paths under the directory
     """
     listOfFiles = list()
 
-    for (dirpath, dirnames, filenames) in os.walk(dirName):
-        ln = len(os.path.commonprefix([dirpath, dirName])) + 1
+    for (dirpath, dirnames, filenames) in os.walk(dir_name):
+        ln = len(os.path.commonprefix([dirpath, dir_name])) + 1
         listOfFiles += [os.path.join(dirpath[ln:], file) for file in filenames]
 
     return listOfFiles
