@@ -6,7 +6,7 @@ to a new directory tree, optionally using symlinks.
 
 This can serve as a way how to extract valuable files out of photo collection.
 
-vlada@devnull.cz, 2018
+vlada@devnull.cz, 2018-2019
 """
 
 import argparse
@@ -77,11 +77,7 @@ def main():
 
                     logger.debug('Found directory: %s' % dirName)
                     for filename in fileList:
-                        # TODO: collect runtime parameters into a class and
-                        #  pass its instance to avoid long argument list
-                        handle_file(et, dirName, filename,
-                                    args.destDir, args.suffix,
-                                    args.stripcount, args.keyword, docopy)
+                        handle_file(args, dirName, docopy, et, filename, logger)
     except filelock.Timeout:
         logger.warning("Already running, exiting.")
         sys.exit(1)
