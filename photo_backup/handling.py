@@ -20,7 +20,7 @@ def handle_file(et, dirname, filename, destdir, suffixes,
     fullname = os.path.join(dirname, filename)
     logger.debug('\t%s' % fullname)
 
-    if check_keywords(logger, et, fullname, keywords):
+    if check_keywords(et, fullname, keywords):
         # If the destination file already exists, do not copy.
         path = pathlib.Path(dirname)
         dstdirname = os.path.sep.join(path.parts[int(stripcount):])
