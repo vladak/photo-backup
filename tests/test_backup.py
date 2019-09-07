@@ -66,5 +66,5 @@ def test_backupdir():
             with exiftool.ExifTool() as et:
                 backup_dir(srcdir, destdir, True, et, ["selected"],
                            len(pathlib.Path(srcdir).parts), ["jpg"])
-                assert get_list_of_files(destdir) == ['foo/testfile.jpg',
-                                                      'bar/2keywords.jpg']
+                assert set(get_list_of_files(destdir)) == set(['foo/testfile.jpg',
+                                                                'bar/2keywords.jpg'])
