@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
    name='photo_backup',
-   version='1.0',
+   version='1.1',
    description='Create a directory tree of images based on EXIF keywords',
    author='Vladimir Kotal',
    author_email='vlada@devnull.cz',
