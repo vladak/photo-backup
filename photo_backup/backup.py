@@ -62,7 +62,6 @@ def backup_file(dirname, filename, destdir,
     dstdirname = os.path.sep.join(path.parts[int(stripcount):])
     dstname = os.path.join(destdir, dstdirname, filename)
 
-    # TODO: compare at least file size
     if os.path.exists(dstname):
         logger.debug("File {} already exists, skipping".
                      format(dstname))
