@@ -28,5 +28,5 @@ or from crontab:
 
 ```
 # run five minutes after midnight, every Sunday
-5 0 * * $HOME/photo-backup/venv/bin/python $HOME/photo-backup/venv/bin/photobackup ...
+5 0 * * $HOME/photo-backup/venv/bin/python $HOME/photo-backup/venv/bin/photobackup -l WARNING ...
 ```
