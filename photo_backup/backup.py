@@ -35,8 +35,6 @@ def handle_file(dir_name, filename, destdir, docopy,
                      format(fullname))
         return
 
-    # TODO: collect runtime parameters into a class and
-    #  pass its instance to avoid long argument list
     backup_file(dir_name, filename,
                 destdir,
                 stripcount, docopy)
