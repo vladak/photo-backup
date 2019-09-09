@@ -74,10 +74,10 @@ def backup_file(dirname, filename, destdir,
         os.makedirs(dstdir, exist_ok=True)
 
     if copy:
-        logger.debug("Copying {} to {}".format(fullname, dstname))
+        logger.info("Copying {} to {}".format(fullname, dstname))
         shutil.copy(fullname, dstname)
     else:
-        logger.debug("Creating symlink {} -> {}".
+        logger.info("Creating symlink {} -> {}".
                      format(dstname, fullname))
         os.symlink(fullname, dstname)
 
