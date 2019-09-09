@@ -19,7 +19,7 @@ pip install .
 Use e.g. like this:
 
 ```
-./exifkeyword_diftree.py -s JPG -s jpg -k nice -k selected srcDir dstDir
+./venv/bin/photobackup -s JPG -s jpg -k nice -k selected srcDir dstDir
 ```
 
 or from crontab:
