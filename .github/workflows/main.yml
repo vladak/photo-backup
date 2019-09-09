@@ -2,7 +2,9 @@ name: Main workflow
 on:
   push:
     paths:
-    - '*'    
+    - '*'
+    - 'photo_backup/*'
+    - 'tests/*'
     - '!README.md'
     - '!.travis.yml'
 
