@@ -82,7 +82,7 @@ def backup_file(dirname, filename, destdir,
 def backup_dir(source_dir, dest_dir, docopy, et, keywords, stripcount, suffixes):
     logger = logging.getLogger(__name__)
 
-    for dirName, subdirList, fileList in os.walk(source_dir):
+    for dirName, _, fileList in os.walk(source_dir):
         if not docopy and dirName == dest_dir:
             logger.debug("Skipping {}".format(dirName))
             continue
