@@ -1,4 +1,4 @@
-<p align="center">
+<p align="left">
 <a href="https://github.com/vladak/photo-backup"><img alt="GitHub Actions status" src="https://github.com/vladak/photo-backup/workflows/Main%20workflow/badge.svg"></a>
 </p>
 
