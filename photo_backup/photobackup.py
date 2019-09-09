@@ -21,6 +21,7 @@ import exiftool
 
 from .utils import check_dir
 from .backup import backup_dir
+from .log import LogLevelAction
 
 
 def main():
@@ -42,6 +43,9 @@ def main():
                              'sourceDir')
     parser.add_argument('--symlink', action='store_true',
                         help='create symlinks instead of copying files')
+    parser.add_argument('-l', '--loglevel', action=LogLevelAction,
+                        help='Set log level (e.g. \"ERROR\")',
+                        default=logging.INFO)
 
     args = parser.parse_args()
 
@@ -64,7 +68,9 @@ def main():
         docopy = False
 
     lock = filelock.FileLock(os.path.join(tempfile.gettempdir(),
-                                          "{}.lock".format(sys.argv[0])))
+                                          "{}.lock".
+                                          format(os.path.
+                                                 basename(sys.argv[0]))))
     try:
         with lock.acquire(timeout=0):
             with exiftool.ExifTool() as et:
