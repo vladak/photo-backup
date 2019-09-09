@@ -1,4 +1,6 @@
+<p align="center">
 <a href="https://github.com/vladak/photo-backup"><img alt="GitHub Actions status" src="https://github.com/vladak/photo-backup/workflows/Main%20workflow/badge.svg"></a>
+</p>
 
 Set of scripts that facilitate easy(ier) backup of directory tree with photos.
 Even though I have quite solid backup strategy for local backups, I wanted to
