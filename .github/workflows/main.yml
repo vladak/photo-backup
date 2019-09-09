@@ -5,6 +5,7 @@ on:
     - '*'
     - 'photo_backup/*'
     - 'tests/*'
+    - '.github/workflows/*'
     - '!README.md'
     - '!.travis.yml'
 
