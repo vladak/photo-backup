@@ -46,7 +46,6 @@ def main():
 
     args = parser.parse_args()
 
-    # TODO avoid basicConfig
     if args.debug:
         logging.basicConfig(level=logging.DEBUG)
     else:
