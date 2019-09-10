@@ -33,5 +33,6 @@ jobs:
       - run: pip install .
       - run: pip install flake8
       - run: pip install pytest
+      - run: pip install --user codecov
       - run: flake8 -v *.py tests/*.py
       - run: pytest
