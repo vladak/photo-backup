@@ -4,7 +4,7 @@ python:
   - "3.7"
 before_install:
   - sudo apt-get install -qq exiftool
-  - pip install --user codecov
+  - pip install codecov
 install:
   - python -m pip install --upgrade pip
   - pip install -r requirements.txt
