@@ -15,5 +15,6 @@ setup(
    },
    tests_require=[
       'pytest',
+      'pytest-cov',
    ],
 )

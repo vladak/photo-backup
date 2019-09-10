@@ -4,6 +4,7 @@ python:
   - "3.7"
 before_install:
   - sudo apt-get install -qq exiftool
+  - pip install --user codecov
 install:
   - python -m pip install --upgrade pip
   - pip install -r requirements.txt
@@ -13,3 +14,5 @@ install:
 script:
   - flake8 *.py
   - pytest
+after_success:
+  - codecov
