@@ -1,5 +1,5 @@
 
-[![Github Actions status](https://github.com/vladak/photo-backup/workflows/Main%20workflow/badge.svg)](https://github.com/vladak/photo-backup) [![Build Status](https://travis-ci.com/vladak/photo-backup.svg?branch=master)](https://travis-ci.com/vladak/photo-backup)
+[![Github Actions status](https://github.com/vladak/photo-backup/workflows/Main%20workflow/badge.svg)](https://github.com/vladak/photo-backup) [![Build Status](https://travis-ci.com/vladak/photo-backup.svg?branch=master)](https://travis-ci.com/vladak/photo-backup) [![codecov](https://codecov.io/gh/vladak/photo-backup/branch/master/graph/badge.svg)](https://codecov.io/gh/vladak/photo-backup)
 
 Set of scripts that facilitate easy(ier) backup of directory tree with photos.
 Even though I have quite solid backup strategy for local backups, I wanted to
