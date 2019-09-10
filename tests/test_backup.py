@@ -28,8 +28,8 @@ def test_backup_file():
         with tempfile.TemporaryDirectory() as destdir:
             print(destdir)
             print(len(pathlib.Path(srcdir).parts))
-            backup_file(subdir, file_name, destdir,
-                        len(pathlib.Path(srcdir).parts))
+            backup_file(subdir, file_name,
+                        os.path.join(destdir, subdir_name, file_name))
             print(os.listdir(destdir))
             assert os.path.isfile(os.path.join(destdir, subdir_name,
                                                file_name))

@@ -29,24 +29,31 @@ def handle_file(dir_name, filename, destdir, docopy,
                      format(filename))
         return
 
+    # If the destination file already exists, do not copy.
+    path = pathlib.Path(dir_name)
+    dstdirname = os.path.sep.join(path.parts[int(stripcount):])
+    dstname = os.path.join(destdir, dstdirname, filename)
+    if os.path.exists(dstname):
+        logger.debug("File {} already exists, skipping".
+                     format(dstname))
+        return
+
+    # This is quite expensive operation as it involves reading EXIF data
+    # from the file.
     fullname = os.path.join(dir_name, filename)
     if not check_keywords(et, fullname, keywords):
         logger.debug("Skipping {} because it does not match any keyword".
                      format(fullname))
         return
 
-    backup_file(dir_name, filename,
-                destdir,
-                stripcount, docopy)
+    backup_file(dir_name, filename, dstname, docopy)
 
 
-def backup_file(dirname, filename, destdir,
-                stripcount, copy=True):
+def backup_file(dirname, filename, dstname, copy=True):
     """
-    :param dirname: directory path
-    :param filename: file name
-    :param destdir: destination directory path
-    :param stripcount: how many path components to strip from dirname
+    :param dirname: source directory path
+    :param filename: source file name
+    :param dstname: destination file
     :param copy: boolean indicating whether to copy the file or create symlink
     """
 
@@ -54,16 +61,6 @@ def backup_file(dirname, filename, destdir,
 
     fullname = os.path.join(dirname, filename)
     logger.debug('\t%s' % fullname)
-
-    # If the destination file already exists, do not copy.
-    path = pathlib.Path(dirname)
-    dstdirname = os.path.sep.join(path.parts[int(stripcount):])
-    dstname = os.path.join(destdir, dstdirname, filename)
-
-    if os.path.exists(dstname):
-        logger.debug("File {} already exists, skipping".
-                     format(dstname))
-        return
 
     dstdir = os.path.dirname(dstname)
     if not os.path.isdir(dstdir):
@@ -75,11 +72,13 @@ def backup_file(dirname, filename, destdir,
         shutil.copy(fullname, dstname)
     else:
         logger.info("Creating symlink {} -> {}".
-                     format(dstname, fullname))
+                    format(dstname, fullname))
         os.symlink(fullname, dstname)
 
 
-def backup_dir(source_dir, dest_dir, docopy, et, keywords, stripcount, suffixes):
+def backup_dir(source_dir, dest_dir, docopy, et, keywords,
+               stripcount, suffixes):
+
     logger = logging.getLogger(__name__)
 
     for dirName, _, fileList in os.walk(source_dir):
