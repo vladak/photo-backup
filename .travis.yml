@@ -11,8 +11,9 @@ install:
   - pip install .
   - pip install flake8
   - pip install pytest
+  - pip install pytest-cov
 script:
   - flake8 *.py
-  - python setup.py test
+  - pytest
 after_success:
   - codecov
