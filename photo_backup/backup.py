@@ -20,6 +20,7 @@ def handle_file(dir_name, filename, destdir, docopy,
     :param stripcount: count of how many path components to strip from
     source directory
     :param suffix: suffixes to check
+    :return True if the file was backed up, False otherwise
     """
 
     logger = logging.getLogger(__name__)
@@ -27,26 +28,33 @@ def handle_file(dir_name, filename, destdir, docopy,
     if not check_suffix(filename, suffix):
         logger.debug("Skipping {} due to no suffix match".
                      format(filename))
-        return
+        return False
 
-    # If the destination file already exists, do not copy.
     path = pathlib.Path(dir_name)
     dstdirname = os.path.sep.join(path.parts[int(stripcount):])
     dstname = os.path.join(destdir, dstdirname, filename)
+    fullname = os.path.join(dir_name, filename)
+
+    # If the destination file already exists and has matching metadata,
+    # do not copy.
     if os.path.exists(dstname):
-        logger.debug("File {} already exists, skipping".
-                     format(dstname))
-        return
+        src_stat = os.stat(fullname)
+        dst_stat = os.stat(dstname)
+        if src_stat.st_size == dst_stat.st_size and \
+                src_stat.st_mtime <= dst_stat.st_mtime:
+            logger.debug("File {} already exists and has matching metadata, "
+                         "skipping".format(dstname))
+            return False
 
     # This is quite expensive operation as it involves reading EXIF data
     # from the file.
-    fullname = os.path.join(dir_name, filename)
     if not check_keywords(et, fullname, keywords):
         logger.debug("Skipping {} because it does not match any keyword".
                      format(fullname))
-        return
+        return False
 
     backup_file(dir_name, filename, dstname, docopy)
+    return True
 
 
 def backup_file(dirname, filename, dstname, copy=True):
