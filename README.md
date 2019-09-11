@@ -6,6 +6,12 @@ Even though I have quite solid backup strategy for local backups, I wanted to
 have the most valuable photos backed up remotely. This set of script creates
 subtree of directory tree with photos which can then be synced elsewhere.
 
+The idea is that the script traverses the directory tree and replicates it
+so that the replica has only files that match given set of criteria, expressed
+in suffixes and EXIF keywords. This replica will normally contain just a fraction
+of files from the source directory tree, really the most valuable photos,
+that can be then backed up to cloud or external (off site) storage.
+
 # Install
 
 Create Python virtual environment and install the dependencies:
