@@ -1,8 +1,14 @@
 import os
 import sys
+import logging
 
 
-def check_dir(logger, name):
+def check_dir(name):
+
+    logger = logging.getLogger(__name__)
+
+    logger.debug("Checking '{}' if is a directory".format(name))
+
     """Check if name is directory. If not, exit the program."""
     if not os.path.isdir(name):
         logger.critical("{} is not a directory".format(name))
