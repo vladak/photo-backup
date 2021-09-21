@@ -3,12 +3,10 @@ import sys
 import tempfile
 import shutil
 import pathlib
-import exiftool
 
 from photo_backup.backup import backup_file, backup_dir, handle_file
 
-sys.path.insert(0,
-                os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -40,7 +38,7 @@ def test_handle_file_no_suffix_match():
     # it would end with exception due to some parameters being None.
     with tempfile.TemporaryDirectory() as destdir:
         assert not handle_file(DIR_PATH, "testfile.jpg", destdir, True,
-                               None, None, 0, ["txt"])
+                               None, 0, ["txt"])
 
 
 def test_handle_file_metadata_match():
@@ -55,7 +53,7 @@ def test_handle_file_metadata_match():
         assert os.path.exists(dstfile)
 
         assert not handle_file(DIR_PATH, filename, destdir, True,
-                               None, None, 0, suffix)
+                               None, 0, suffix)
 
 
 def get_list_of_files(dir_name):
@@ -86,8 +84,7 @@ def test_backupdir():
         with tempfile.TemporaryDirectory() as destdir:
             print(destdir)
             print(len(pathlib.Path(srcdir).parts))
-            with exiftool.ExifTool() as et:
-                backup_dir(srcdir, destdir, True, et, ["selected"],
-                           len(pathlib.Path(srcdir).parts), ["jpg"])
-                assert set(get_list_of_files(destdir)) == \
-                    set(['foo/testfile.jpg', 'bar/2keywords.jpg'])
+            backup_dir(srcdir, destdir, True, ["selected"],
+                       len(pathlib.Path(srcdir).parts), ["jpg"])
+            assert set(get_list_of_files(destdir)) == \
+                set(['foo/testfile.jpg', 'bar/2keywords.jpg'])
