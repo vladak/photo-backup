@@ -7,7 +7,7 @@ setup(
    author='Vladimir Kotal',
    author_email='vlada@devnull.cz',
    packages=['photo_backup'],
-   install_requires=['exifread', 'filelock'],
+   install_requires=['iptcinfo3', 'filelock'],
    entry_points={
       'console_scripts': [
          'photobackup = photo_backup.photobackup:main'

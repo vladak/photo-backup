@@ -15,7 +15,7 @@ def handle_file(dir_name, filename, destdir, docopy,
     :param filename: source file name
     :param destdir: destination directory
     :param docopy: copy or create symlink
-    :param keywords: list of EXIF keywords
+    :param keywords: list of keywords
     :param stripcount: count of how many path components to strip from
     source directory
     :param suffix: suffixes to check

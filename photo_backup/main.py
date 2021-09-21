@@ -6,7 +6,7 @@ to a new directory tree, optionally using symlinks.
 
 This can serve as a way how to extract valuable files out of photo collection.
 
-vlada@devnull.cz, 2018-2019
+vlada@devnull.cz, 2018-2021
 """
 
 import argparse

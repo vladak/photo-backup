@@ -1,23 +1,21 @@
 import logging
 
-import exifread
+from iptcinfo3 import IPTCInfo
 
 
 def get_metadata(file_path):
     """
     Get EXIF metadata for a file.
     :param file_path: full path to the file
-    :return: metadata dictionary
+    :return: iptcinfo3.IPTCInfo object
     """
 
     logger = logging.getLogger(__name__)
 
-    with open(file_path, 'rb') as f:
-        tags = exifread.process_file(f)
+    info = IPTCInfo(file_path)
+    logger.debug("File {} tags: {}".format(file_path, info))
 
-    logger.debug("File {} tags: {}".format(file_path, tags))
-
-    return tags
+    return info
 
 
 def get_keywords(file_path):
@@ -32,7 +30,7 @@ def get_keywords(file_path):
     metadata = get_metadata(file_path)
 
     try:
-        file_keywords = metadata["IPTC:Keywords"]
+        file_keywords = metadata['keywords']
         logger.debug("File {} has keywords: {}".
                      format(file_path, file_keywords))
     except KeyError:
@@ -42,6 +40,8 @@ def get_keywords(file_path):
 
     if not isinstance(file_keywords, list):
         file_keywords = [file_keywords]
+
+    file_keywords = list(map(lambda x: x.decode(), file_keywords))
 
     return file_keywords
 
