@@ -3,7 +3,7 @@ import shutil
 import os
 import logging
 
-from .exif import check_keywords
+from .photoutil import check_keywords
 from .utils import check_suffix
 
 
