@@ -71,6 +71,11 @@ def main():
                                                  basename(sys.argv[0]))))
     try:
         with lock.acquire(timeout=0):
+            # To prevent iptcinfo3 from emitting warnings on files without
+            # IPTC data.
+            iptc_logger = logging.getLogger('iptcinfo')
+            iptc_logger.setLevel(logging.ERROR)
+
             backup_dir(args.sourceDir, args.destDir, docopy,
                        args.keyword, args.stripcount, args.suffix)
     except filelock.Timeout:
