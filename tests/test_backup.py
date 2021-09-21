@@ -6,7 +6,8 @@ import pathlib
 
 from photo_backup.backup import backup_file, backup_dir, handle_file
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0,
+                os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
