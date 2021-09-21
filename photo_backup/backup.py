@@ -83,7 +83,7 @@ def backup_file(dirname, filename, dstname, copy=True):
         os.symlink(fullname, dstname)
 
 
-def backup_dir(source_dir, dest_dir, docopy, et, keywords,
+def backup_dir(source_dir, dest_dir, docopy, keywords,
                stripcount, suffixes):
 
     logger = logging.getLogger(__name__)
@@ -96,5 +96,5 @@ def backup_dir(source_dir, dest_dir, docopy, et, keywords,
         logger.debug('Found directory: %s' % dirName)
         for filename in fileList:
             handle_file(dirName, filename, dest_dir, docopy,
-                        et, keywords, stripcount,
+                        keywords, stripcount,
                         suffixes)

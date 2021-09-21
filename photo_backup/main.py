@@ -72,8 +72,7 @@ def main():
     try:
         with lock.acquire(timeout=0):
             backup_dir(args.sourceDir, args.destDir, docopy,
-                       args.keyword, args.stripcount,
-                       args.suffix)
+                       args.keyword, args.stripcount, args.suffix)
     except filelock.Timeout:
         logger.warning("Already running, exiting.")
         sys.exit(1)
