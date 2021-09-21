@@ -17,8 +17,6 @@ import tempfile
 
 import filelock
 
-import exiftool
-
 from .utils import check_dir
 from .backup import backup_dir
 from .log import LogLevelAction
@@ -73,10 +71,9 @@ def main():
                                                  basename(sys.argv[0]))))
     try:
         with lock.acquire(timeout=0):
-            with exiftool.ExifTool() as et:
-                backup_dir(args.sourceDir, args.destDir, docopy, et,
-                           args.keyword, args.stripcount,
-                           args.suffix)
+            backup_dir(args.sourceDir, args.destDir, docopy,
+                       args.keyword, args.stripcount,
+                       args.suffix)
     except filelock.Timeout:
         logger.warning("Already running, exiting.")
         sys.exit(1)

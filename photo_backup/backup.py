@@ -8,14 +8,13 @@ from .utils import check_suffix
 
 
 def handle_file(dir_name, filename, destdir, docopy,
-                et, keywords, stripcount, suffix):
+                keywords, stripcount, suffix):
     """
     Check if file is eligible for backup and if yes, back it up.
     :param dir_name: source directory
     :param filename: source file name
     :param destdir: destination directory
     :param docopy: copy or create symlink
-    :param et: exiftool instance
     :param keywords: list of EXIF keywords
     :param stripcount: count of how many path components to strip from
     source directory
@@ -48,7 +47,7 @@ def handle_file(dir_name, filename, destdir, docopy,
 
     # This is quite expensive operation as it involves reading EXIF data
     # from the file.
-    if not check_keywords(et, fullname, keywords):
+    if not check_keywords(fullname, keywords):
         logger.debug("Skipping {} because it does not match any keyword".
                      format(fullname))
         return False

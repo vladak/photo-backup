@@ -1,47 +1,43 @@
-import json
 import logging
 
+import exifread
 
-def get_metadata(et, fullname):
+
+def get_metadata(file_path):
     """
     Get EXIF metadata for a file.
-    :param et: exiftool instance
-    :param fullname: full path to the file
-    :return: metadata
+    :param file_path: full path to the file
+    :return: metadata dictionary
     """
 
     logger = logging.getLogger(__name__)
 
-    try:
-        metadata = et.get_metadata(fullname)
-        logger.debug("File {} metadata: {}".
-                     format(fullname, metadata))
-    except json.decoder.JSONDecodeError:
-        logger.error("Cannot get metadata for {}".format(fullname))
-        raise
+    with open(file_path, 'rb') as f:
+        tags = exifread.process_file(f)
 
-    return metadata
+    logger.debug("File {} tags: {}".format(file_path, tags))
+
+    return tags
 
 
-def get_keywords(et, fullname):
+def get_keywords(file_path):
     """
     Get EXIF keywords for a file.
-    :param et: exiftool instance
-    :param fullname: full path to the file
+    :param file_path: full path to the file
     :return: list of keywords
     """
 
     logger = logging.getLogger(__name__)
 
-    metadata = get_metadata(et, fullname)
+    metadata = get_metadata(file_path)
 
     try:
         file_keywords = metadata["IPTC:Keywords"]
         logger.debug("File {} has keywords: {}".
-                     format(fullname, file_keywords))
+                     format(file_path, file_keywords))
     except KeyError:
         logger.debug("File {} does not contain keyword metadata".
-                     format(fullname))
+                     format(file_path))
         return []
 
     if not isinstance(file_keywords, list):
@@ -50,11 +46,10 @@ def get_keywords(et, fullname):
     return file_keywords
 
 
-def check_keywords(et, fullname, keywords):
+def check_keywords(file_path, keywords):
     """
     Check if file has contains specified EXIF keywords.
-    :param et: exiftool instance
-    :param fullname: full path to the file
+    :param file_path: full path to the file
     :param keywords: list of keywords
     :return: true if the file contains a keyword from the list
     """
@@ -62,9 +57,9 @@ def check_keywords(et, fullname, keywords):
     logger = logging.getLogger(__name__)
 
     for keyword in keywords:
-        if keyword in get_keywords(et, fullname):
+        if keyword in get_keywords(file_path):
             logger.debug("File {} contains the '{}' keyword".
-                         format(fullname, keyword))
+                         format(file_path, keyword))
             return True
 
     return False
