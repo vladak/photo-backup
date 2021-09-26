@@ -19,7 +19,6 @@ jobs:
         os: [ubuntu-latest, macOS-latest]
     steps:
       - uses: actions/checkout@master
-      - uses: codecov/codecov-action@v2
       - name: Setup python
         uses: actions/setup-python@v1
         with:
@@ -38,3 +37,4 @@ jobs:
       - run: pip install pytest-cov
       - run: flake8 -v photo_backup/*.py tests/*.py
       - run: pytest
+      - uses: codecov/codecov-action@v2
