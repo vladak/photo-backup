@@ -33,4 +33,5 @@ jobs:
       - run: pip install pytest-cov
       - run: flake8 -v photo_backup/*.py tests/*.py
       - run: pytest --cov=./
+      - run: coverage xml
       - uses: codecov/codecov-action@v2
