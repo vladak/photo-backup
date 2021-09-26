@@ -22,7 +22,7 @@ def check_suffix(filename, suffixes):
     :param suffixes: list of suffixes (can be None)
     :return: true if filename's suffix matches on in the list
     """
-    if not suffixes:
+    if suffixes is None:
         return True
 
     for suffix in suffixes:
