@@ -29,9 +29,8 @@ jobs:
       - run: pip install .
       - run: pip install flake8
       - run: pip install pytest
-      - run: pip install --user codecov
+      - run: pip install codecov
       - run: pip install pytest-cov
-      - run: pip install coverage
       - run: flake8 -v photo_backup/*.py tests/*.py
       - run: pytest --cov=./
       - run: coverage xml
