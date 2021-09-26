@@ -6,3 +6,4 @@ build
 create
 dist
 *.pyc
+*.egg-info
