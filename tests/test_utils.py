@@ -8,11 +8,13 @@ sys.path.insert(0,
 
 
 def test_suffix_none():
-    assert check_suffix(None, None) == True
+    assert check_suffix(None, None)
+
 
 def test_suffix_positive():
-    assert check_suffix("foo.bar", ["bar"]) == True
-    assert check_suffix("foo.bar", ["x", "bar", "y"]) == True
+    assert check_suffix("foo.bar", ["bar"])
+    assert check_suffix("foo.bar", ["x", "bar", "y"])
+
 
 def test_suffix_negative():
-    assert check_suffix("foo.bar", ["x", "y", "foo", "z"]) == False
+    assert not check_suffix("foo.bar", ["x", "y", "foo", "z"])
