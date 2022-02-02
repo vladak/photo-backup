@@ -5,7 +5,7 @@ setup(
    version='1.3',
    description='Backup a directory tree of photos, filtering on EXIF keywords',
    author='Vladimir Kotal',
-   author_email='vlada@devnull.cz',
+   author_email='vlada@kotalovi.cz',
    packages=['photo_backup'],
    install_requires=['iptcinfo3', 'filelock'],
    entry_points={
