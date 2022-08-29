@@ -1,2 +1,2 @@
-PyExifTool==0.5.3
+PyExifTool==0.5.4
 filelock==3.0.12
